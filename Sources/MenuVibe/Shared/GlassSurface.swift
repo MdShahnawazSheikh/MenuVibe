@@ -42,42 +42,36 @@ struct VisualEffectBackground: NSViewRepresentable {
     }
 }
 
-/// Wraps content in MenuVibe's glass surface: native Liquid Glass on macOS 26+, and a
-/// correctly-clipped vibrant material with a hairline highlight everywhere else.
+/// Wraps content in MenuVibe's glass surface: a correctly corner-clipped vibrant
+/// system material with a soft top highlight.
 ///
-/// One modifier so every floating surface in the app looks identical and the corner
-/// clipping is handled in exactly one place.
+/// On macOS 26 the `.menu`/`.popover` materials render as Liquid Glass natively, so we
+/// get that look for free by using the system material rather than calling the new
+/// `.glassEffect` API directly — which keeps the code compiling on the older SDKs used
+/// by CI while still looking like Liquid Glass on 26. The corner mask lives here, in
+/// one place, so no surface ever bleeds past its rounded corners.
 struct GlassSurface: ViewModifier {
     var radius: CGFloat = DS.Radius.surface
     var material: NSVisualEffectView.Material = .menu
 
     func body(content: Content) -> some View {
         let shape = RoundedRectangle(cornerRadius: radius, style: .continuous)
-        if #available(macOS 26.0, *) {
-            content
-                .glassEffect(.regular, in: shape)
-                .overlay(
-                    shape.strokeBorder(.white.opacity(0.08), lineWidth: 0.5)
-                        .blendMode(.plusLighter)
+        content
+            .background(VisualEffectBackground(material: material, cornerRadius: radius))
+            .clipShape(shape)
+            .overlay(
+                // A soft top highlight sells the "glass" edge in both appearances.
+                shape.strokeBorder(
+                    LinearGradient(
+                        colors: [.white.opacity(0.18), .white.opacity(0.02)],
+                        startPoint: .top, endPoint: .bottom
+                    ),
+                    lineWidth: 0.75
                 )
-        } else {
-            content
-                .background(VisualEffectBackground(material: material, cornerRadius: radius))
-                .clipShape(shape)
-                .overlay(
-                    // A soft top highlight sells the "glass" edge in both appearances.
-                    shape.strokeBorder(
-                        LinearGradient(
-                            colors: [.white.opacity(0.18), .white.opacity(0.02)],
-                            startPoint: .top, endPoint: .bottom
-                        ),
-                        lineWidth: 0.75
-                    )
-                )
-                .overlay(
-                    shape.strokeBorder(DS.Color.separator.opacity(0.6), lineWidth: 0.5)
-                )
-        }
+            )
+            .overlay(
+                shape.strokeBorder(DS.Color.separator.opacity(0.6), lineWidth: 0.5)
+            )
     }
 }
 
