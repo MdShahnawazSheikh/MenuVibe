@@ -1,6 +1,6 @@
 cask "menuvibe" do
-  version "1.1.0"
-  sha256 "393abd6e5481eb5bf6f2ec53783ec92c056fba5afcffde466148b33796b4b023"
+  version "1.2.0"
+  sha256 "8b3f83fa495f1d5008211ab6c911dfcbd4f430e88e697dd31d9907c9936d834d"
 
   url "https://github.com/MdShahnawazSheikh/MenuVibe/releases/download/v#{version}/MenuVibe.dmg",
       verified: "github.com/MdShahnawazSheikh/MenuVibe/"
@@ -24,8 +24,11 @@ cask "menuvibe" do
     System Settings › Privacy & Security › Accessibility on first run.
 
     Release builds are currently ad-hoc signed (not yet notarized). If macOS
-    refuses to open the app, either right-click it and choose Open, or run:
+    refuses to open the app, or if Accessibility keeps asking for access even
+    after you grant it (the app is running from a quarantined location), run:
 
       xattr -dr com.apple.quarantine "/Applications/MenuVibe.app"
+
+    then reopen MenuVibe and grant Accessibility once — it will stick.
   EOS
 end
