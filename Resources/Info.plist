@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleName</key>
+    <string>MenuVibe</string>
+    <key>CFBundleDisplayName</key>
+    <string>MenuVibe</string>
+    <key>CFBundleIdentifier</key>
+    <string>app.menuvibe.MenuVibe</string>
+    <key>CFBundleExecutable</key>
+    <string>MenuVibe</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>13.0</string>
+    <!-- Agent app: menu bar only, no Dock icon, no ⌘-Tab entry (spec §1, §3). -->
+    <key>LSUIElement</key>
+    <true/>
+    <key>NSHumanReadableCopyright</key>
+    <string>MIT License. Community-built, open source.</string>
+    <key>NSHighResolutionCapable</key>
+    <true/>
+    <!-- Shown by macOS when MenuVibe requests Accessibility for window snapping (spec §9). -->
+    <key>NSAccessibilityUsageDescription</key>
+    <string>MenuVibe uses Accessibility to move and resize windows for the Window Snapper. It is never used for anything else.</string>
+</dict>
+</plist>

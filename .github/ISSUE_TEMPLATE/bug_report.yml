@@ -1,0 +1,55 @@
+name: Bug report
+description: Something isn't working the way it should
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for taking the time to file a bug. The more specific you are, the faster it gets fixed.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you do, what did you expect, and what happened instead?
+      placeholder: I pressed ⌃⌥→ to snap right, but the window moved to the wrong display.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open two apps across two monitors
+        2. Focus the app on the left display
+        3. Press ⌃⌥→
+    validations:
+      required: true
+  - type: input
+    id: macos
+    attributes:
+      label: macOS version
+      placeholder: "14.5"
+    validations:
+      required: true
+  - type: dropdown
+    id: arch
+    attributes:
+      label: Mac type
+      options:
+        - Apple Silicon (M-series)
+        - Intel
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: MenuVibe version
+      description: See Settings › About
+      placeholder: "1.0.0"
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs (optional)
+      description: "Output of: log show --predicate 'process == \"MenuVibe\"' --last 5m"
+      render: shell

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  MenuVibe menu bar mark — "layers" variant (source of truth).
+
+  Three offset rounded squares reading as a stack of tools. This is a monochrome
+  template: fill is black so macOS can auto-tint it for light/dark menu bars. The
+  runtime draws this same shape in code (Sources/.../Shared/MenuBarIcon.swift); this
+  SVG is the design source, and the export target for Resources/AppIcon.icns.
+
+  Grid: 18×18 optical size, drawn on a 36×36 canvas at 2× for crisp export.
+-->
+<svg width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+  <g fill="none" stroke="#000000" stroke-width="3.2">
+    <!-- back layer -->
+    <rect x="7.5"  y="13.5" width="15" height="15" rx="4.2" ry="4.2"/>
+    <!-- middle layer -->
+    <rect x="12"   y="9"    width="15" height="15" rx="4.2" ry="4.2"/>
+  </g>
+  <!-- front layer, filled, with a knock-out so the stack stays legible when tinted -->
+  <path fill="#000000" fill-rule="evenodd"
+        d="M20.7 4.5
+           h6.6 a4.2 4.2 0 0 1 4.2 4.2
+           v6.6 a4.2 4.2 0 0 1 -4.2 4.2
+           h-6.6 a4.2 4.2 0 0 1 -4.2 -4.2
+           v-6.6 a4.2 4.2 0 0 1 4.2 -4.2 Z
+           M22.4 9.9
+           a2.1 2.1 0 0 0 0 4.2 h3 a2.1 2.1 0 0 0 0 -4.2 Z"/>
+</svg>
