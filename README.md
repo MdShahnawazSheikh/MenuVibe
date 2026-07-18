@@ -84,18 +84,24 @@ brew install --cask menuvibe
 > Recent Homebrew versions ask you to trust a third-party tap the first time; if prompted,
 > run `brew trust --cask MdShahnawazSheikh/tap/menuvibe`.
 
-> Release builds are currently ad-hoc signed (notarization is on the roadmap). If macOS
-> blocks first launch, right-click the app → **Open**, or run
-> `xattr -dr com.apple.quarantine "/Applications/MenuVibe.app"`.
->
-> **If window snapping keeps asking for Accessibility even after you grant it,** the app
-> is running from a quarantined/temporary location and macOS won't remember the grant.
-> Move **MenuVibe** into `/Applications`, run the `xattr` command above, then reopen it
-> and grant Accessibility once — it will stick.
+The cask clears the quarantine flag on install, so MenuVibe **opens normally** — no
+Gatekeeper "unverified developer" dialog. This is the recommended way to install.
 
-### Download
+### Download (.dmg)
 
 Grab `MenuVibe.dmg` from the [latest release](https://github.com/MdShahnawazSheikh/MenuVibe/releases/latest), open it, and drag MenuVibe to Applications.
+
+> **Gatekeeper on a direct download.** Release builds are ad-hoc signed, not yet
+> notarized (notarization needs a paid Apple Developer ID — it's on the roadmap). macOS
+> will show *"Apple could not verify MenuVibe…"* on first launch. To open it:
+>
+> - **Easiest:** install via **Homebrew** above — it handles this for you; **or**
+> - Run once: `xattr -dr com.apple.quarantine "/Applications/MenuVibe.app"` then open it; **or**
+> - Open it once, then go to **System Settings › Privacy & Security** and click
+>   **Open Anyway** (on macOS 15+ the old right-click → Open shortcut no longer works).
+>
+> Doing this also makes the **Accessibility** grant stick — a quarantined app runs from a
+> temporary path that macOS won't remember permissions for.
 
 ### Build from source
 
