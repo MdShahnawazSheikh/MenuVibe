@@ -43,7 +43,10 @@ final class PanelController: NSObject, NSWindowDelegate {
         panel.becomesKeyOnlyIfNeeded = false
         panel.isOpaque = false
         panel.backgroundColor = .clear
-        panel.hasShadow = true
+        // No native window shadow: AppKit traces it around the window's *rectangular*
+        // frame, producing hard square corners that clash with the rounded glass surface.
+        // The rounded SwiftUI `.shadow` in PanelRootView hugs the real shape instead.
+        panel.hasShadow = false
         panel.animationBehavior = .utilityWindow
         panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary, .transient]
 
@@ -117,10 +120,12 @@ final class PanelController: NSObject, NSWindowDelegate {
     // MARK: Positioning
 
     private func positionPanel(relativeTo anchor: NSStatusBarButton?) {
-        panel.layoutIfNeeded()
-        let contentHeight = panel.contentView?.fittingSize.height ?? 400
-        let height = min(max(contentHeight, 200), DS.Metrics.panelMaxHeight)
-        panel.setContentSize(NSSize(width: DS.Metrics.panelWidth, height: height))
+        // The SwiftUI root is a fixed size (panel width/height plus its shadow padding),
+        // so we size the window to that once and never let content drive the frame — the
+        // window stays rock-steady across tabs and content states.
+        let height = DS.Metrics.panelHeight + 20 // + shadow padding (10pt each side)
+        let width = DS.Metrics.panelWidth + 20
+        panel.setContentSize(NSSize(width: width, height: height))
 
         guard let anchor, let anchorWindow = anchor.window else {
             panel.center()
@@ -129,14 +134,17 @@ final class PanelController: NSObject, NSWindowDelegate {
         let buttonRect = anchor.convert(anchor.bounds, to: nil)
         let screenRect = anchorWindow.convertToScreen(buttonRect)
         let gap: CGFloat = 6
+        let pad: CGFloat = 10 // shadow padding baked into the window on every side
 
-        var originX = screenRect.midX - DS.Metrics.panelWidth / 2
-        let originY = screenRect.minY - height - gap
+        // Center the *visible glass* under the status item and sit `gap` below the menu
+        // bar; the window is `pad` larger all around than the glass, so we compensate.
+        var originX = screenRect.midX - width / 2
+        let originY = screenRect.minY - height - gap + pad
 
         // Keep the panel on-screen if the status item sits near a screen edge.
         if let screen = anchorWindow.screen ?? NSScreen.main {
             let visible = screen.visibleFrame
-            originX = min(max(originX, visible.minX + 8), visible.maxX - DS.Metrics.panelWidth - 8)
+            originX = min(max(originX, visible.minX + 8 - pad), visible.maxX - width - 8 + pad)
         }
         panel.setFrameOrigin(NSPoint(x: originX, y: originY))
     }

@@ -23,15 +23,18 @@ struct ClipboardView: View {
         VStack(spacing: 0) {
             searchField
             DSDivider()
-            if manager.items.isEmpty {
-                emptyState
-            } else if filtered.isEmpty {
-                noMatchesState
-            } else {
-                list
+            Group {
+                if manager.items.isEmpty {
+                    emptyState
+                } else if filtered.isEmpty {
+                    noMatchesState
+                } else {
+                    list
+                }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         }
-        .frame(maxHeight: DS.Metrics.panelMaxHeight)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .background(numberShortcuts)
     }
 
@@ -126,6 +129,7 @@ struct ClipboardView: View {
             title: "Nothing copied yet",
             message: "Copy something and it'll show up here — text, images, or files."
         )
+        .frame(maxWidth: .infinity, maxHeight: .infinity) // center in the fixed panel
     }
 
     private var noMatchesState: some View {
@@ -134,6 +138,7 @@ struct ClipboardView: View {
             title: "No matches",
             message: "Nothing in your history matches “\(query)”."
         )
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 

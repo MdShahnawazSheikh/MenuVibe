@@ -38,6 +38,10 @@ enum DS {
 
     enum Metrics {
         static let panelWidth: CGFloat = 380
+        /// The panel is a *fixed* height so it never jumps as content changes or as you
+        /// move between tabs — the rock-solid feel of Spotlight/Raycast. Content scrolls
+        /// or centers within it; it never drives the window size.
+        static let panelHeight: CGFloat = 480
         static let panelMaxHeight: CGFloat = 520
         static let rowHeight: CGFloat = 44
         static let tabStripHeight: CGFloat = 38
@@ -82,6 +86,23 @@ enum DS {
         static let quick = Animation.spring(response: 0.24, dampingFraction: 0.85)
         /// Crossfade for tab content — a subtle dissolve, not a hard cut (spec §3).
         static let crossfade = Animation.easeInOut(duration: 0.18)
+    }
+}
+
+// MARK: - View helpers
+
+extension View {
+    /// Suppresses the macOS keyboard focus ring on our menu-style surfaces. Inside a
+    /// popover or the Settings sidebar, the outline that lands on the first control when
+    /// the window becomes key reads as a stray "selected box" rather than a helpful
+    /// affordance, so we opt out of it. No-op below macOS 14, where the API is absent.
+    @ViewBuilder
+    func noFocusRing() -> some View {
+        if #available(macOS 14, *) {
+            self.focusEffectDisabled()
+        } else {
+            self
+        }
     }
 }
 

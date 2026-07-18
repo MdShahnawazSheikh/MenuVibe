@@ -16,8 +16,19 @@ final class WindowSnapper: ObservableObject {
     /// the moment access is missing or revoked (spec §5).
     @Published private(set) var hasAccessibilityPermission: Bool = false
 
+    /// Polls the trust status in the background so the inline banner clears the instant
+    /// the user grants access in System Settings — without them having to reopen the
+    /// panel or relaunch. `AXIsProcessTrusted()` reflects live grants but nothing
+    /// notifies us of the change, so a cheap heartbeat is the reliable path.
+    private var pollTimer: Timer?
+
     init() {
         refreshPermissionStatus()
+        startPolling()
+    }
+
+    deinit {
+        pollTimer?.invalidate()
     }
 
     // MARK: Permission
@@ -29,14 +40,32 @@ final class WindowSnapper: ObservableObject {
         if trusted != hasAccessibilityPermission {
             DispatchQueue.main.async { self.hasAccessibilityPermission = trusted }
         }
-        hasAccessibilityPermission = trusted
         return trusted
+    }
+
+    private func startPolling() {
+        let timer = Timer(timeInterval: 1.0, repeats: true) { [weak self] _ in
+            self?.refreshPermissionStatus()
+        }
+        RunLoop.main.add(timer, forMode: .common)
+        pollTimer = timer
     }
 
     /// Trigger the system's Accessibility prompt (used from onboarding, spec §9).
     func requestAccessibilityPermission() {
         let key = kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String
         _ = AXIsProcessTrustedWithOptions([key: true] as CFDictionary)
+    }
+
+    /// macOS "App Translocation": a quarantined app launched from Downloads/a mounted
+    /// DMG is run from a randomized read-only path (`…/AppTranslocation/<UUID>/…`). TCC
+    /// keys the Accessibility grant to that path, so the grant never sticks and the app
+    /// looks "enabled" in System Settings while still being denied. This is the classic
+    /// "I granted access but it still says it needs it" — the fix is to move the app into
+    /// /Applications (which strips translocation) or clear its quarantine flag. We detect
+    /// it so the UI can say exactly that instead of leaving the user stuck.
+    var isTranslocated: Bool {
+        Bundle.main.bundlePath.contains("/AppTranslocation/")
     }
 
     func openAccessibilitySettings() {

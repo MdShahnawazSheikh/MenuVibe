@@ -47,6 +47,7 @@ struct SettingsView: View {
             }
         }
         .frame(minWidth: 640, minHeight: 460)
+        .noFocusRing() // the sidebar's selection is the accent pill, not a focus outline
     }
 
     // MARK: Sidebar

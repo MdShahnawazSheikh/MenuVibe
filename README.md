@@ -87,6 +87,11 @@ brew install --cask menuvibe
 > Release builds are currently ad-hoc signed (notarization is on the roadmap). If macOS
 > blocks first launch, right-click the app → **Open**, or run
 > `xattr -dr com.apple.quarantine "/Applications/MenuVibe.app"`.
+>
+> **If window snapping keeps asking for Accessibility even after you grant it,** the app
+> is running from a quarantined/temporary location and macOS won't remember the grant.
+> Move **MenuVibe** into `/Applications`, run the `xattr` command above, then reopen it
+> and grant Accessibility once — it will stick.
 
 ### Download
 

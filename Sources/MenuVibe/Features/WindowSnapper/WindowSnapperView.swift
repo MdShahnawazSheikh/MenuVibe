@@ -32,6 +32,7 @@ struct WindowSnapperView: View {
                 group("More", others)
             }
             .padding(DS.Spacing.comfy)
+            .animation(DS.Motion.spring, value: snapperObserved.hasAccessibilityPermission)
         }
         .frame(maxHeight: DS.Metrics.panelMaxHeight)
         .onAppear { snapper.refreshPermissionStatus() }
@@ -62,17 +63,25 @@ struct WindowSnapperView: View {
                 Text("Accessibility access needed")
                     .font(DS.Font.rowTitleEmph)
                     .foregroundStyle(DS.Color.primaryLabel)
-                Text("Window snapping moves other apps' windows, which macOS gates behind Accessibility.")
-                    .font(DS.Font.caption)
-                    .foregroundStyle(DS.Color.secondaryLabel)
-                    .fixedSize(horizontal: false, vertical: true)
-                Button("Open Accessibility Settings") {
-                    snapper.openAccessibilitySettings()
+                if snapper.isTranslocated {
+                    // The grant will never stick from a translocated path — tell the truth.
+                    Text("MenuVibe is running from a temporary quarantine location, so macOS won't remember Accessibility access. Move MenuVibe into your Applications folder, then reopen it.")
+                        .font(DS.Font.caption)
+                        .foregroundStyle(DS.Color.secondaryLabel)
+                        .fixedSize(horizontal: false, vertical: true)
+                } else {
+                    Text("Window snapping moves other apps' windows, which macOS gates behind Accessibility.")
+                        .font(DS.Font.caption)
+                        .foregroundStyle(DS.Color.secondaryLabel)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Button("Open Accessibility Settings") {
+                        snapper.openAccessibilitySettings()
+                    }
+                    .buttonStyle(.plain)
+                    .font(DS.Font.interactive)
+                    .foregroundStyle(DS.Color.accent)
+                    .padding(.top, 2)
                 }
-                .buttonStyle(.plain)
-                .font(DS.Font.interactive)
-                .foregroundStyle(DS.Color.accent)
-                .padding(.top, 2)
             }
             Spacer(minLength: 0)
         }
@@ -81,6 +90,11 @@ struct WindowSnapperView: View {
             RoundedRectangle(cornerRadius: DS.Radius.panel, style: .continuous)
                 .fill(DS.Color.accent.opacity(0.10))
         )
+        .overlay(
+            RoundedRectangle(cornerRadius: DS.Radius.panel, style: .continuous)
+                .strokeBorder(DS.Color.accent.opacity(0.22), lineWidth: 0.5)
+        )
+        .transition(.opacity.combined(with: .move(edge: .top)))
     }
 }
 

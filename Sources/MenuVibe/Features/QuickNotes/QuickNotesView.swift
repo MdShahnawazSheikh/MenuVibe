@@ -25,10 +25,11 @@ struct QuickNotesView: View {
                     editor
                 }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             DSDivider()
             statusBar
         }
-        .frame(height: 380)
+        .frame(maxHeight: .infinity) // fill the fixed panel height (spec §3)
         .onChange(of: focusRequest) { request in
             // Summoned via the Quick Note hotkey → drop straight into the editor.
             if request == .notes {

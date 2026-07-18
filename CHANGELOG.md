@@ -10,6 +10,29 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Signed & notarized release builds
 - Auto-update via Sparkle
 
+## [1.2.0] — 2026-07-18
+
+### Fixed
+- **Panel size is now rock-steady** — the dropdown is a fixed height, so it no longer
+  shrinks to fit a short clipboard history and then jumps when you switch to a taller
+  tab. Content scrolls or centers within a stable window (Spotlight/Raycast-style).
+- **Clipboard empty state** — "Nothing copied yet" now centers cleanly in the panel
+  instead of leaving a gap above the search field.
+- **Panel corners & shadow** — dropped the native window shadow that traced a hard
+  rectangular halo around the rounded surface; the panel now casts a tight, soft
+  popover shadow that hugs its actual shape.
+- **Stray focus ring** — suppressed the macOS keyboard focus outline that landed on
+  the first control (a tab, or the Settings sidebar) when the window became key and
+  read as an unwanted "selected box."
+
+### Changed
+- **Accessibility permission is re-checked live** — the "Accessibility access needed"
+  banner now clears within a second of granting access, without reopening the panel.
+- **Clearer diagnosis when the grant won't stick** — if MenuVibe is running from a
+  quarantined/translocated location (the usual reason Accessibility "won't take" for
+  downloaded builds), the banner now says so and tells you to move the app into
+  Applications and reopen it.
+
 ## [1.1.0] — 2026-07-18
 
 ### Added

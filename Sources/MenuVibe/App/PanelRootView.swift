@@ -23,12 +23,15 @@ struct PanelRootView: View {
             tabStrip
             DSDivider()
             content
-                .frame(maxWidth: .infinity, alignment: .topLeading)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         }
-        .frame(width: DS.Metrics.panelWidth)
+        // Fixed size: the window is stable across tabs and content states (spec §3).
+        .frame(width: DS.Metrics.panelWidth, height: DS.Metrics.panelHeight)
         .glassSurface() // clipped vibrancy / Liquid Glass — fixes corner overflow
-        .shadow(color: .black.opacity(0.22), radius: 20, y: 8)
-        .padding(12) // room for the panel's own soft shadow
+        .noFocusRing()  // no stray focus outline on the first control when we become key
+        // A tight, soft popover shadow — hugs the rounded shape, no square halo.
+        .shadow(color: .black.opacity(0.22), radius: 14, y: 6)
+        .padding(10) // just enough room for the soft shadow
     }
 
     // MARK: Tab strip (icon-only, spec §3)
