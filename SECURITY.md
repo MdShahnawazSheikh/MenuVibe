@@ -8,7 +8,7 @@ seriously.
 
 **Please do not open a public issue for security vulnerabilities.**
 
-Instead, use GitHub's private **[Report a vulnerability](https://github.com/OWNER/MenuVibe/security/advisories/new)**
+Instead, use GitHub's private **[Report a vulnerability](https://github.com/MdShahnawazSheikh/MenuVibe/security/advisories/new)**
 flow (Security tab → Advisories). Include:
 
 - A description of the issue and its impact

@@ -7,7 +7,7 @@ Thanks for your interest in improving MenuVibe. This project aims for a "would p
 Requirements: **Xcode 15+ / Swift 5.9+** on **macOS 13+**.
 
 ```bash
-git clone https://github.com/OWNER/MenuVibe.git
+git clone https://github.com/MdShahnawazSheikh/MenuVibe.git
 cd MenuVibe
 make run      # build + run from the terminal
 make test     # run the unit tests

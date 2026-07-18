@@ -8,7 +8,7 @@
 
 Clipboard history · window snapping · a Markdown scratchpad — in a single notarizable binary that idles under 30 MB.
 
-[![Build](https://github.com/OWNER/MenuVibe/actions/workflows/build.yml/badge.svg)](https://github.com/OWNER/MenuVibe/actions/workflows/build.yml)
+[![Build](https://github.com/MdShahnawazSheikh/MenuVibe/actions/workflows/build.yml/badge.svg)](https://github.com/MdShahnawazSheikh/MenuVibe/actions/workflows/build.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-black.svg)](LICENSE)
 [![macOS 13+](https://img.shields.io/badge/macOS-13%2B-black.svg)](https://www.apple.com/macos/)
 [![Swift 5.9](https://img.shields.io/badge/Swift-5.9-orange.svg)](https://swift.org)
@@ -79,7 +79,7 @@ For a menu bar utility that is fundamentally a thin native UI over system APIs, 
 Requires **Xcode 15+ / Swift 5.9+** on **macOS 13 Ventura or later**.
 
 ```bash
-git clone https://github.com/OWNER/MenuVibe.git
+git clone https://github.com/MdShahnawazSheikh/MenuVibe.git
 cd MenuVibe
 
 # Run straight from the terminal (Ctrl-C to quit):
