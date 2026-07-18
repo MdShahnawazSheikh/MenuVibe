@@ -1,0 +1,30 @@
+name: Feature request
+description: Suggest an idea for MenuVibe
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the friction you're hitting. Focus on the problem, not a specific solution.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What would you like MenuVibe to do?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope check
+      description: MenuVibe deliberately stays small and focused (see the README roadmap).
+      options:
+        - label: I've read the roadmap and this isn't already listed as intentionally out of scope.
+          required: true

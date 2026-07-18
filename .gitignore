@@ -1,0 +1,34 @@
+# Swift Package Manager
+.build/
+.swiftpm/
+Package.resolved
+
+# Build output
+dist/
+*.app
+*.dmg
+
+# Xcode
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+
+# Editor
+.vscode/
+*.swp
+*~
+.idea/
+
+# Secrets / signing (never commit these)
+*.p12
+*.cer
+*.provisionprofile
+ExportOptions.plist
