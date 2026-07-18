@@ -165,20 +165,26 @@ struct AboutPane: View {
         return "Version \(v) (\(b))"
     }
 
+    /// The real app icon from the bundle, so About shows the product mark, not the
+    /// monochrome menu bar glyph.
+    private var appIcon: NSImage { NSApp.applicationIconImage ?? MenuBarIcon.image(for: .layers) }
+
     var body: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.comfy) {
             HStack(spacing: DS.Spacing.comfy) {
-                Image(nsImage: MenuBarIcon.image(for: .layers))
+                Image(nsImage: appIcon)
                     .resizable()
-                    .frame(width: 40, height: 40)
-                    .foregroundStyle(DS.Color.primaryLabel)
+                    .frame(width: 64, height: 64)
                 VStack(alignment: .leading, spacing: 2) {
                     Text("MenuVibe")
-                        .font(.system(size: 20, weight: .semibold))
+                        .font(.system(size: 22, weight: .semibold))
                         .foregroundStyle(DS.Color.primaryLabel)
                     Text(version)
                         .font(DS.Font.caption)
                         .foregroundStyle(DS.Color.secondaryLabel)
+                    Text("MIT · open source")
+                        .font(DS.Font.caption)
+                        .foregroundStyle(DS.Color.tertiaryLabel)
                 }
             }
 
@@ -187,12 +193,22 @@ struct AboutPane: View {
                 .foregroundStyle(DS.Color.secondaryLabel)
                 .fixedSize(horizontal: false, vertical: true)
 
+            // The star CTA — front and center, with a line that earns it.
+            HStack(spacing: DS.Spacing.comfy) {
+                StarOnGitHubButton()
+                Text("If MenuVibe saved you a few clicks, a star helps others find it.")
+                    .font(DS.Font.caption)
+                    .foregroundStyle(DS.Color.secondaryLabel)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .padding(.vertical, DS.Spacing.tight)
+
             HStack(spacing: DS.Spacing.base) {
-                Link("GitHub Repository", destination: URL(string: "https://github.com/MdShahnawazSheikh/MenuVibe")!)
+                Link("GitHub Repository", destination: AppLinks.repo)
                 Text("·").foregroundStyle(DS.Color.tertiaryLabel)
-                Link("Report an Issue", destination: URL(string: "https://github.com/MdShahnawazSheikh/MenuVibe/issues")!)
+                Link("Report an Issue", destination: AppLinks.issues)
                 Text("·").foregroundStyle(DS.Color.tertiaryLabel)
-                Link("MIT License", destination: URL(string: "https://github.com/MdShahnawazSheikh/MenuVibe/blob/main/LICENSE")!)
+                Link("MIT License", destination: AppLinks.license)
             }
             .font(DS.Font.interactive)
 

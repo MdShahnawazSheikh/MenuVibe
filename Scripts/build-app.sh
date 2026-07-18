@@ -25,10 +25,11 @@ mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 
 cp "$BUILD_DIR/MenuVibe" "$APP/Contents/MacOS/MenuVibe"
 cp "$ROOT/Resources/Info.plist" "$APP/Contents/Info.plist"
-# Bundle the app icon if it has been exported (see Design/ for the source).
+# Bundle the app icon (CFBundleIconFile is already declared in Info.plist).
 if [[ -f "$ROOT/Resources/AppIcon.icns" ]]; then
   cp "$ROOT/Resources/AppIcon.icns" "$APP/Contents/Resources/AppIcon.icns"
-  /usr/libexec/PlistBuddy -c "Add :CFBundleIconFile string AppIcon" "$APP/Contents/Info.plist" 2>/dev/null || true
+else
+  echo "  (note: Resources/AppIcon.icns missing — run: swift Scripts/generate-appicon.swift && iconutil -c icns Design/AppIcon.iconset -o Resources/AppIcon.icns)"
 fi
 
 echo "▸ Signing…"

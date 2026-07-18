@@ -147,7 +147,9 @@ enum ShortcutID: String, CaseIterable, Codable {
         let cmdShift = UInt32(cmdKey | shiftKey)
         switch self {
         case .summonPanel:    return KeyCombo(keyCode: UInt32(kVK_Space), modifiers: cmdShift)
-        case .quickNote:      return KeyCombo(keyCode: UInt32(kVK_ANSI_N), modifiers: cmdShift)
+        // ⌃⌘N, deliberately NOT ⌘⇧N — that is macOS's system-wide "New Folder" and
+        // clashes in Finder and many apps. Control+Command+N is unclaimed system-wide.
+        case .quickNote:      return KeyCombo(keyCode: UInt32(kVK_ANSI_N), modifiers: UInt32(controlKey | cmdKey))
         case .snapLeftHalf:   return KeyCombo(keyCode: UInt32(kVK_LeftArrow), modifiers: ctrlOpt)
         case .snapRightHalf:  return KeyCombo(keyCode: UInt32(kVK_RightArrow), modifiers: ctrlOpt)
         case .snapTopHalf:    return KeyCombo(keyCode: UInt32(kVK_UpArrow), modifiers: ctrlOpt)

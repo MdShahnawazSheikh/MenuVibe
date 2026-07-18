@@ -129,6 +129,20 @@ final class MenuVibeTests: XCTestCase {
         XCTAssertTrue(blocks.contains { if case .code(let c) = $0 { return c == "code here" }; return false })
     }
 
+    // MARK: SMC (diagnostic — prints what this machine exposes; never fails)
+
+    func testSMCReadsSomething() {
+        let smc = SMCReader()
+        guard smc.open() else {
+            print("SMC: could not open AppleSMC connection"); return
+        }
+        defer { smc.close() }
+        let smcTemp = smc.averageCPUTemperature()
+        let hidTemp = IOHIDThermalReader()?.averageCPUTemperature()
+        let fan = smc.primaryFanRPM()
+        print("SMC temp = \(smcTemp.map { String(format: "%.1f°C", $0) } ?? "nil"), HID temp = \(hidTemp.map { String(format: "%.1f°C", $0) } ?? "nil"), fan = \(fan.map { "\(Int($0)) rpm" } ?? "none")")
+    }
+
     func testMarkdownParserNeverCrashesOnMalformedInput() {
         // A hash with no space is not a heading; an unterminated fence shouldn't hang.
         _ = MarkdownBlock.parse("#nospace\n```\nunterminated")

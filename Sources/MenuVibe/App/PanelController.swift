@@ -2,11 +2,23 @@ import AppKit
 import SwiftUI
 import Combine
 
+/// A borderless `NSPanel` that is still allowed to become the key window.
+///
+/// This is the fix for "I can't type in Quick Note / search": a plain borderless
+/// window returns `false` from `canBecomeKey`, so no `TextField`/`TextEditor` inside
+/// it ever becomes first responder and keystrokes go nowhere. Overriding these lets
+/// the dropdown accept text like Spotlight does, while `.nonactivatingPanel` keeps it
+/// from stealing the Dock/menu bar focus of whatever app you summoned it from.
+final class KeyablePanel: NSPanel {
+    override var canBecomeKey: Bool { true }
+    override var canBecomeMain: Bool { false }
+}
+
 /// A borderless floating panel anchored under the status item. Hosts the SwiftUI
 /// panel content and implements standard menu-bar-extra dismissal: click-outside,
 /// Escape, or resignation of key status (spec §3).
 final class PanelController: NSObject, NSWindowDelegate {
-    private let panel: NSPanel
+    private let panel: KeyablePanel
     private weak var appDelegate: AppDelegate?
     private let model: PanelModel
     private var localEscMonitor: Any?
@@ -19,7 +31,7 @@ final class PanelController: NSObject, NSWindowDelegate {
         self.appDelegate = appDelegate
         self.model = PanelModel(activeTab: appDelegate.preferences.lastActiveTab)
 
-        panel = NSPanel(
+        panel = KeyablePanel(
             contentRect: NSRect(x: 0, y: 0, width: DS.Metrics.panelWidth, height: 400),
             styleMask: [.borderless, .nonactivatingPanel, .fullSizeContentView],
             backing: .buffered,
@@ -73,13 +85,18 @@ final class PanelController: NSObject, NSWindowDelegate {
             return
         }
         positionPanel(relativeTo: anchor)
+
+        // Start a touch lower and transparent, then rise + fade in — a soft "settle"
+        // that reads as liquid without a flash of unpositioned content.
+        let target = panel.frame
+        panel.setFrameOrigin(NSPoint(x: target.origin.x, y: target.origin.y - 10))
         panel.alphaValue = 0
         panel.makeKeyAndOrderFront(nil)
-        // Fade + settle in with the house spring feel, no flash of unpositioned content.
         NSAnimationContext.runAnimationGroup { ctx in
-            ctx.duration = 0.16
-            ctx.timingFunction = CAMediaTimingFunction(name: .easeOut)
+            ctx.duration = 0.24
+            ctx.timingFunction = CAMediaTimingFunction(controlPoints: 0.16, 1, 0.3, 1) // easeOutBack-ish
             panel.animator().alphaValue = 1
+            panel.animator().setFrame(target, display: true)
         }
         model.focusRequest = tab
         installDismissMonitors()

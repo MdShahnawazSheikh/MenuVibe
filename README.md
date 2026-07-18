@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="Resources/MenuBarIcon.svg" width="72" height="72" alt="MenuVibe icon">
+<img src="Design/AppIcon-1024.png" width="128" height="128" alt="MenuVibe icon">
 
 # MenuVibe
 
@@ -74,7 +74,21 @@ For a menu bar utility that is fundamentally a thin native UI over system APIs, 
 
 ## Install
 
-### Build from source (only supported method today)
+### Homebrew
+
+```bash
+brew install --cask MdShahnawazSheikh/tap/menuvibe
+```
+
+> Release builds are currently ad-hoc signed (notarization is on the roadmap). If macOS
+> blocks first launch, right-click the app → **Open**, or run
+> `xattr -dr com.apple.quarantine "/Applications/MenuVibe.app"`.
+
+### Download
+
+Grab `MenuVibe.dmg` from the [latest release](https://github.com/MdShahnawazSheikh/MenuVibe/releases/latest), open it, and drag MenuVibe to Applications.
+
+### Build from source
 
 Requires **Xcode 15+ / Swift 5.9+** on **macOS 13 Ventura or later**.
 
@@ -91,10 +105,6 @@ open dist/MenuVibe.app
 ```
 
 On first launch MenuVibe walks you through a short setup and asks for **Accessibility** permission (needed only for window snapping — see [Permissions](#permissions)).
-
-### Homebrew (planned)
-
-A Homebrew cask (`brew install --cask menuvibe`) is on the roadmap once signed release builds are published. See [Distribution](#distribution).
 
 ---
 
@@ -184,11 +194,12 @@ MenuVibe/
 
 ## Roadmap
 
-Intentionally **not** in v1, tracked for later:
+Tracked for later:
 
-- [ ] Signed & notarized release builds + Homebrew cask
+- [x] Homebrew cask
+- [x] CPU temperature & fan readouts (SMC on Intel/M1, HID thermal on newer Apple Silicon)
+- [ ] Signed & notarized release builds
 - [ ] Auto-update via [Sparkle](https://sparkle-project.org)
-- [ ] Full SMC thermal/fan sensors (Intel today; Apple Silicon exposes few publicly)
 - [ ] Opt-in iCloud sync for clipboard (privacy-gated)
 - [ ] Custom window-snap zone editor
 - [ ] Multiple named notes

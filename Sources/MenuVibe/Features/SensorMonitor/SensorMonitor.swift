@@ -21,10 +21,18 @@ final class SensorMonitor: ObservableObject {
     @Published private(set) var cpuHistory: [Sample] = []      // last 60s
     @Published private(set) var memoryHistory: [Sample] = []
 
-    /// Whether SMC thermal/fan sensors are reachable. On Apple Silicon this is false
-    /// today; the UI reads it to show "unavailable" instead of empty gauges.
-    let thermalSensorsAvailable: Bool = false
+    /// Live CPU die temperature in °C, or `nil` if this Mac doesn't surface it.
+    @Published private(set) var cpuTemperature: Double?
+    @Published private(set) var temperatureHistory: [Sample] = []
+    /// Primary fan RPM, or `nil` on fanless Macs.
+    @Published private(set) var fanRPM: Double?
 
+    /// Whether the SMC exposes a CPU temperature on this machine. Probed once when
+    /// sampling starts; the UI reads it to show a real readout vs. an honest note.
+    @Published private(set) var thermalSensorsAvailable = false
+
+    private let smc = SMCReader()
+    private lazy var hid = IOHIDThermalReader() // Apple Silicon thermal fallback
     private var timer: Timer?
     private var previousCPUTicks: (user: UInt32, system: UInt32, idle: UInt32, nice: UInt32)?
     private let historyLength = 60
@@ -33,6 +41,9 @@ final class SensorMonitor: ObservableObject {
     /// tab costs literally nothing (spec §7, §10).
     func start() {
         guard timer == nil else { return }
+        smc.open()
+        // Probe once so the UI can decide between a real readout and an honest note.
+        thermalSensorsAvailable = currentTemperature() != nil
         sample()
         let timer = Timer(timeInterval: 1.0, repeats: true) { [weak self] _ in self?.sample() }
         RunLoop.main.add(timer, forMode: .common)
@@ -43,6 +54,7 @@ final class SensorMonitor: ObservableObject {
     func stop() {
         timer?.invalidate()
         timer = nil
+        smc.close()
     }
 
     deinit { stop() }
@@ -58,6 +70,17 @@ final class SensorMonitor: ObservableObject {
             memoryUsedFraction = mem
             append(mem, to: &memoryHistory)
         }
+        if thermalSensorsAvailable, let temp = currentTemperature() {
+            cpuTemperature = temp
+            append(temp, to: &temperatureHistory)
+        }
+        fanRPM = smc.primaryFanRPM()
+    }
+
+    /// CPU temperature from whichever source this Mac exposes: SMC first (Intel / M1),
+    /// then the HID thermal service (newer Apple Silicon).
+    private func currentTemperature() -> Double? {
+        smc.averageCPUTemperature() ?? hid?.averageCPUTemperature()
     }
 
     private func append(_ value: Double, to history: inout [Sample]) {

@@ -16,10 +16,13 @@ enum DS {
 
     /// Corner radii, deliberately different per element class (spec §2).
     enum Radius {
-        static let button: CGFloat = 6
-        static let row: CGFloat = 8
+        static let button: CGFloat = 7
+        static let row: CGFloat = 9
         static let panel: CGFloat = 12
         static let thumbnail: CGFloat = 5
+        /// The outer glass surface (dropdown panel, settings cards) — larger, to match
+        /// the softer corners of macOS's own Liquid Glass surfaces.
+        static let surface: CGFloat = 18
     }
 
     /// A 4pt spacing grid. Density-first — this is a menu bar surface, not a page.

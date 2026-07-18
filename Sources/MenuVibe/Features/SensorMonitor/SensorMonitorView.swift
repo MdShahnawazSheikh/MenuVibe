@@ -17,8 +17,27 @@ struct SensorMonitorView: View {
                     fraction: monitor.memoryUsedFraction,
                     history: monitor.memoryHistory.map(\.value))
 
-            if !monitor.thermalSensorsAvailable {
+            if monitor.thermalSensorsAvailable, let temp = monitor.cpuTemperature {
+                readout(title: "CPU Temperature",
+                        value: "\(Int(temp.rounded()))°",
+                        fraction: min(1, max(0, (temp - 30) / 70)), // 30–100°C mapped to the sparkline
+                        history: monitor.temperatureHistory.map(\.value))
+            } else {
                 thermalNote
+            }
+
+            if let rpm = monitor.fanRPM {
+                HStack {
+                    Text("Fan")
+                        .font(DS.Font.sectionHeader)
+                        .foregroundStyle(DS.Color.secondaryLabel)
+                    Spacer()
+                    Text("\(Int(rpm.rounded())) rpm")
+                        .font(.system(size: 15, weight: .medium, design: .rounded))
+                        .foregroundStyle(DS.Color.primaryLabel)
+                        .monospacedDigit()
+                }
+                .padding(.horizontal, DS.Spacing.tight)
             }
         }
         .padding(DS.Spacing.comfy)

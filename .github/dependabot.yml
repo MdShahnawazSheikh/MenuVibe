@@ -1,0 +1,10 @@
+version: 2
+updates:
+  # Keep the GitHub Actions used in CI up to date. (MenuVibe has no package
+  # dependencies to bump — it uses only the system SDK.)
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: ci
