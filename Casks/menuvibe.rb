@@ -14,6 +14,18 @@ cask "menuvibe" do
 
   app "MenuVibe.app"
 
+  # Release builds are ad-hoc signed (notarization needs a paid Apple Developer ID,
+  # which is on the roadmap). Without this, Gatekeeper shows the scary
+  # "Apple could not verify MenuVibe" dialog and — on macOS 15+ — there is no longer a
+  # right-click → Open bypass. Since this is a trusted first-party tap, we strip the
+  # quarantine flag on install so `brew install --cask menuvibe` opens cleanly and the
+  # Accessibility grant sticks. Remove this once notarized builds ship.
+  postflight do
+    system_command "/usr/bin/xattr",
+                   args: ["-dr", "com.apple.quarantine", "#{appdir}/MenuVibe.app"],
+                   sudo: false
+  end
+
   zap trash: [
     "~/Library/Application Support/MenuVibe",
     "~/Library/Preferences/app.menuvibe.MenuVibe.plist",
@@ -23,12 +35,10 @@ cask "menuvibe" do
     MenuVibe uses Accessibility (for window snapping). Grant it in
     System Settings › Privacy & Security › Accessibility on first run.
 
-    Release builds are currently ad-hoc signed (not yet notarized). If macOS
-    refuses to open the app, or if Accessibility keeps asking for access even
-    after you grant it (the app is running from a quarantined location), run:
+    Release builds are ad-hoc signed (notarization is on the roadmap). This cask
+    already clears the quarantine flag for you, so MenuVibe should open normally.
+    If you ever move it manually and macOS still blocks it, run:
 
       xattr -dr com.apple.quarantine "/Applications/MenuVibe.app"
-
-    then reopen MenuVibe and grant Accessibility once — it will stick.
   EOS
 end
