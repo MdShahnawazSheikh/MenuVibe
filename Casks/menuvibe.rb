@@ -1,6 +1,6 @@
 cask "menuvibe" do
   version "1.2.0"
-  sha256 "8b3f83fa495f1d5008211ab6c911dfcbd4f430e88e697dd31d9907c9936d834d"
+  sha256 "7072bf79f4c5ea2834b466ca7edaca22c00f6217410ac8f7e1d2abd763b6d690"
 
   url "https://github.com/MdShahnawazSheikh/MenuVibe/releases/download/v#{version}/MenuVibe.dmg",
       verified: "github.com/MdShahnawazSheikh/MenuVibe/"
