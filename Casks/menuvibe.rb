@@ -2,8 +2,7 @@ cask "menuvibe" do
   version "1.2.0"
   sha256 "7072bf79f4c5ea2834b466ca7edaca22c00f6217410ac8f7e1d2abd763b6d690"
 
-  url "https://github.com/MdShahnawazSheikh/MenuVibe/releases/download/v#{version}/MenuVibe.dmg",
-      verified: "github.com/MdShahnawazSheikh/MenuVibe/"
+  url "https://github.com/MdShahnawazSheikh/MenuVibe/releases/download/v#{version}/MenuVibe.dmg"
   name "MenuVibe"
   desc "Menu bar suite: clipboard history, window snapping, and quick notes"
   homepage "https://github.com/MdShahnawazSheikh/MenuVibe"
