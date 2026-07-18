@@ -15,11 +15,6 @@ Clipboard history · window snapping · a Markdown scratchpad — in a single no
 
 </div>
 
-> [!NOTE]
-> **📸 Maintainer:** drop a real screen recording of the dropdown panel here before your first release.
-> Record a ~10s GIF (clipboard search → window snap → quick note) and save it as `Design/demo.gif`, then replace this note with:
-> `<div align="center"><img src="Design/demo.gif" width="420" alt="MenuVibe in action"></div>`
-
 ---
 
 ## What it does
