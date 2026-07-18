@@ -39,5 +39,5 @@ The first release. A tight, polished v1 of three tools in one menu bar app.
 - **Tooling** — `swift build`/`test`, an app-bundling script, a DMG script, a
   Makefile, and a GitHub Actions build/test workflow.
 
-[Unreleased]: https://github.com/OWNER/MenuVibe/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/OWNER/MenuVibe/releases/tag/v1.0.0
+[Unreleased]: https://github.com/MdShahnawazSheikh/MenuVibe/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/MdShahnawazSheikh/MenuVibe/releases/tag/v1.0.0

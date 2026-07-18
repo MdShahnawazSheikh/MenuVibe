@@ -91,7 +91,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     @objc private func checkForUpdates() {
         // Sparkle auto-update is a documented roadmap item (spec §8, §12). Until it
         // ships, point the user at the releases page rather than faking a check.
-        if let url = URL(string: "https://github.com/OWNER/MenuVibe/releases") {
+        if let url = URL(string: "https://github.com/MdShahnawazSheikh/MenuVibe/releases") {
             NSWorkspace.shared.open(url)
         }
     }

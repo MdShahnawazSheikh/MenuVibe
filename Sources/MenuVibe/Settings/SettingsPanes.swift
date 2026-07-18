@@ -188,11 +188,11 @@ struct AboutPane: View {
                 .fixedSize(horizontal: false, vertical: true)
 
             HStack(spacing: DS.Spacing.base) {
-                Link("GitHub Repository", destination: URL(string: "https://github.com/OWNER/MenuVibe")!)
+                Link("GitHub Repository", destination: URL(string: "https://github.com/MdShahnawazSheikh/MenuVibe")!)
                 Text("·").foregroundStyle(DS.Color.tertiaryLabel)
-                Link("Report an Issue", destination: URL(string: "https://github.com/OWNER/MenuVibe/issues")!)
+                Link("Report an Issue", destination: URL(string: "https://github.com/MdShahnawazSheikh/MenuVibe/issues")!)
                 Text("·").foregroundStyle(DS.Color.tertiaryLabel)
-                Link("MIT License", destination: URL(string: "https://github.com/OWNER/MenuVibe/blob/main/LICENSE")!)
+                Link("MIT License", destination: URL(string: "https://github.com/MdShahnawazSheikh/MenuVibe/blob/main/LICENSE")!)
             }
             .font(DS.Font.interactive)
 
