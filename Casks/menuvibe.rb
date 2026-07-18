@@ -1,6 +1,6 @@
 cask "menuvibe" do
   version "1.1.0"
-  sha256 "REPLACE_WITH_DMG_SHA256"
+  sha256 "393abd6e5481eb5bf6f2ec53783ec92c056fba5afcffde466148b33796b4b023"
 
   url "https://github.com/MdShahnawazSheikh/MenuVibe/releases/download/v#{version}/MenuVibe.dmg",
       verified: "github.com/MdShahnawazSheikh/MenuVibe/"
@@ -10,7 +10,7 @@ cask "menuvibe" do
 
   # No auto-update yet (Sparkle is on the roadmap); Homebrew handles upgrades.
   auto_updates false
-  depends_on macos: ">= :ventura"
+  depends_on macos: :ventura
 
   app "MenuVibe.app"
 

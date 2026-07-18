@@ -77,8 +77,12 @@ For a menu bar utility that is fundamentally a thin native UI over system APIs, 
 ### Homebrew
 
 ```bash
-brew install --cask MdShahnawazSheikh/tap/menuvibe
+brew tap MdShahnawazSheikh/tap
+brew install --cask menuvibe
 ```
+
+> Recent Homebrew versions ask you to trust a third-party tap the first time; if prompted,
+> run `brew trust --cask MdShahnawazSheikh/tap/menuvibe`.
 
 > Release builds are currently ad-hoc signed (notarization is on the roadmap). If macOS
 > blocks first launch, right-click the app → **Open**, or run
